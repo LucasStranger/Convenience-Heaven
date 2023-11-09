@@ -1,0 +1,75 @@
+# Módulo 2: Avaliação de Itens
+
+class ItemParaAvaliacao:
+    def __init__(self, codigo, nome, descricao, condicao, foto):
+        self.codigo = codigo
+        self.nome = nome
+        self.descricao = descricao
+        self.condicao = condicao
+        self.foto = foto
+        self.valor_creditos = None  # Adicionamos o campo 'valor_creditos'
+
+class SistemaAvaliacao:
+    def __init__(self, sistema_cadastro):
+        self.itens_para_avaliar = []
+        self.sistema_cadastro = sistema_cadastro
+
+    def acessar_itens_cadastrados(self):
+        return self.sistema_cadastro.clientes_itens
+
+    def adicionar_item_avaliacao(self, item):
+        self.itens_para_avaliar.append(item)
+
+    def avaliar_itens(self):
+        for item in self.itens_para_avaliar:
+            # Permitir ao usuário atribuir um valor de créditos ao item
+            valor_creditos = float(input(f"Digite o valor de créditos para o item {item.codigo}: "))
+            item.valor_creditos = valor_creditos
+
+            print(f"Item {item.codigo} avaliado. Valor de créditos: {item.valor_creditos}")
+
+            # Atualizar valor de créditos do item no cadastro
+            self.sistema_cadastro.atualizar_valor_creditos(item.codigo, item.valor_creditos)
+
+
+# Módulo 1: Cadastro de Itens
+
+class Cliente:
+    def __init__(self, nome, descricao, condicao, foto):
+        self.nome = nome
+        self.descricao = descricao
+        self.condicao = condicao
+        self.foto = foto
+        self.codigo = None  # Código único será gerado automaticamente
+        self.valor_creditos = 0.0  # Valor de créditos inicializado como zero
+
+class SistemaCadastro:
+    def __init__(self):
+        self.clientes_itens = []
+
+    def cadastrar_item(self, cliente):
+        # Gera um código único para o item
+        codigo_item = hash(cliente.nome + cliente.descricao)
+        cliente.codigo = codigo_item
+        self.clientes_itens.append(cliente)
+        print(f"Item cadastrado com sucesso! Código único: {codigo_item}")
+
+    def atualizar_valor_creditos(self, codigo_item, valor_creditos):
+        # Encontrar o item com base no código
+        item = next((cliente for cliente in self.clientes_itens if cliente.codigo == codigo_item), None)
+        if item:
+            item.valor_creditos = valor_creditos
+            print(f"Valor de créditos atualizado para o item {item.codigo}. Novo valor: {item.valor_creditos}")
+
+
+sistema_cadastro = SistemaCadastro()
+
+# Simulação de cadastramento de itens
+cliente1 = Cliente("Camiseta", "Camiseta branca, tamanho M", "Usado", "foto_camiseta.jpg")
+sistema_cadastro.cadastrar_item(cliente1)
+
+# Simulação de avaliação de itens
+item_avaliacao = ItemParaAvaliacao(cliente1.codigo, cliente1.nome, cliente1.descricao, cliente1.condicao, cliente1.foto)
+sistema_avaliacao = SistemaAvaliacao(sistema_cadastro)
+sistema_avaliacao.adicionar_item_avaliacao(item_avaliacao)
+sistema_avaliacao.avaliar_itens()
