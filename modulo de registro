@@ -1,0 +1,43 @@
+# Módulo 1: Cadastro de Itens
+
+class Cliente:
+    def __init__(self, nome, descricao, condicao, foto):
+        self.nome = nome
+        self.descricao = descricao
+        self.condicao = condicao
+        self.foto = foto
+        self.codigo = None  
+
+class SistemaCadastro:
+    def __init__(self):
+        self.clientes_itens = []
+
+    def cadastrar_item(self, cliente):
+      
+        codigo_item = hash(cliente.nome + cliente.descricao)
+        cliente.codigo = codigo_item
+        self.clientes_itens.append(cliente)
+        print(f"Item cadastrado com sucesso! Código único: {codigo_item}")
+
+
+def cadastrar_itens():
+    sistema_cadastro = SistemaCadastro()
+    continuar_cadastro = True
+
+    while continuar_cadastro:
+      
+        nome_item = input("Digite o nome do item: ")
+        descricao_item = input("Digite a descrição do item: ")
+        condicao_item = input("Digite a condição do item (usado, novo, etc.): ")
+        foto_item = input("Digite o nome do arquivo de foto do item: ")
+
+        # Criando um cliente e cadastrando um item
+        cliente_usuario = Cliente(nome_item, descricao_item, condicao_item, foto_item)
+        sistema_cadastro.cadastrar_item(cliente_usuario)
+
+    
+        resposta = input("Deseja cadastrar mais itens? (s/n): ")
+        continuar_cadastro = resposta.lower() == 's'
+
+
+cadastrar_itens()
