@@ -1,0 +1,47 @@
+# Módulo 5: Troca de Itens :T
+
+class SistemaTroca:
+    def __init__(self, sistema_cadastro, sistema_gestao_creditos, catalogo):
+        self.sistema_cadastro = sistema_cadastro
+        self.sistema_gestao_creditos = sistema_gestao_creditos
+        self.catalogo = catalogo
+
+    def realizar_troca(self, cliente):
+        # Mostrar catálogo de itens disponíveis
+        self.catalogo.visualizar_catalogo()
+
+        # Selecionar item para troca
+        nome_item_troca = input("Digite o nome do item que deseja trocar: ")
+
+        # Encontrar o item no catálogo
+        item_selecionado = next((item for item in self.catalogo.itens_disponiveis if item.nome == nome_item_troca), None)
+
+        if item_selecionado:
+            # Verificar se o cliente possui créditos suficientes
+            if cliente.creditos >= item_selecionado.creditos_necessarios:
+                # Deduzir créditos do cliente
+                cliente.creditos -= item_selecionado.creditos_necessarios
+
+                # Adicionar item ao sistema de cadastro do cliente
+                cliente_troca = Cliente(item_selecionado.nome, f"Troca de {item_selecionado.nome}", "Novo", "")
+                self.sistema_cadastro.cadastrar_item(cliente_troca)
+
+                print(f"Troca realizada com sucesso! {item_selecionado.nome} adicionado ao seu cadastro.")
+                print(f"Novo saldo de créditos: {cliente.creditos}")
+            else:
+                print("Você não possui créditos suficientes para realizar esta troca.")
+        else:
+            print("Item não encontrado no catálogo.")
+
+# Exemplo de Uso
+if __name__ == "__main__":
+    # Criar instâncias dos sistemas necessários
+    sistema_gestao_creditos = SistemaGestaoCreditos()
+    sistema_troca = SistemaTroca(sistema_cadastro, sistema_gestao_creditos, catalogo)
+
+    # Exemplo: Realizar troca para o cliente existente (supondo que o cliente já foi criado e possui créditos)
+    cliente_existente = obter_cliente("NomeClienteExistente")
+
+    # Exemplo: Realizar troca para o cliente existente
+    sistema_troca.realizar_troca(cliente_existente)
+
