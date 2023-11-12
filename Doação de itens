@@ -1,0 +1,48 @@
+# Módulo 6: Doação de Itens :D
+
+class SistemaDoacao:
+    def __init__(self, sistema_cadastro, catalogo):
+        self.sistema_cadastro = sistema_cadastro
+        self.catalogo = catalogo
+        self.historico_doacoes = []
+
+    def realizar_doacao(self, cliente):
+        # Mostrar catálogo de itens disponíveis
+        self.catalogo.visualizar_catalogo()
+
+        # Selecionar item para doação
+        nome_item_doacao = input("Digite o nome do item que deseja doar: ")
+
+        # Encontrar o item no catálogo
+        item_selecionado = next((item for item in self.catalogo.itens_disponiveis if item.nome == nome_item_doacao), None)
+
+        if item_selecionado:
+            # Adicionar item ao sistema de cadastro do cliente
+            cliente_doacao = Cliente(item_selecionado.nome, f"Doação de {item_selecionado.nome}", "Novo", "")
+            self.sistema_cadastro.cadastrar_item(cliente_doacao)
+
+            # Registrar doação no histórico
+            doacao = {"cliente": cliente.nome, "item": item_selecionado.nome}
+            self.historico_doacoes.append(doacao)
+
+            print(f"Doação realizada com sucesso! {item_selecionado.nome} adicionado ao seu cadastro.")
+            print("Obrigado pela sua doação!")
+        else:
+            print("Item não encontrado no catálogo.")
+
+    def visualizar_historico_doacoes(self):
+        print("Histórico de Doações:")
+        for doacao in self.historico_doacoes:
+            print(f"Cliente: {doacao['cliente']} | Item doado: {doacao['item']}")
+
+# Exemplo de Uso
+if __name__ == "__main__":
+    # Criar instância do sistema de doação
+    sistema_doacao = SistemaDoacao(sistema_cadastro, catalogo)
+
+    # Exemplo: Realizar doação para o cliente existente (supondo que o cliente já foi criado)
+    cliente_existente = obter_cliente("NomeClienteExistente")
+    sistema_doacao.realizar_doacao(cliente_existente)
+
+    # Visualizar histórico de doações
+    sistema_doacao.visualizar_historico_doacoes()
