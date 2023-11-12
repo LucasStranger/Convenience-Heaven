@@ -1,0 +1,74 @@
+# Módulo 3: Gestão de Créditos :P
+
+class Funcionario:
+    def __init__(self, nome, cargo):
+        self.nome = nome
+        self.cargo = cargo
+
+    def atribuir_creditos(self, cliente, item_aprovado, avaliacao):
+        valor_credito = self.calcular_valor_credito(avaliacao)
+        cliente.adicionar_creditos(valor_credito)
+        print(f"{self.nome} atribuiu {valor_credito} créditos ao cliente {cliente.nome} para o item {item_aprovado}.")
+
+    def calcular_valor_credito(self, avaliacao):
+        return avaliacao
+
+
+class Cliente:
+    def __init__(self, nome):
+        self.nome = nome
+        self.creditos = 0
+
+    def adicionar_creditos(self, quantidade):
+        self.creditos += quantidade
+        print(f"Cliente {self.nome} recebeu {quantidade} créditos. Créditos totais: {self.creditos}")
+
+
+# Função para criar ou obter um funcionário existente
+def obter_funcionario(nome_funcionario):
+    # Verificar se o funcionário já existe
+    for funcionario in funcionarios:
+        if funcionario.nome == nome_funcionario:
+            return funcionario
+
+    # Se não existir, criar um novo funcionário
+    novo_funcionario = Funcionario(nome_funcionario, "Cargo Padrao")
+    funcionarios.append(novo_funcionario)
+    return novo_funcionario
+
+
+# Função para criar ou obter um cliente existente
+def obter_cliente(nome_cliente):
+    # Verificar se o cliente já existe
+    for cliente in clientes:
+        if cliente.nome == nome_cliente:
+            return cliente
+
+    # Se não existir, criar um novo cliente
+    novo_cliente = Cliente(nome_cliente)
+    clientes.append(novo_cliente)
+    return novo_cliente
+
+
+# Função para obter informações do usuário
+def obter_dados_usuario():
+    nome_funcionario = input("Digite o nome do funcionário: ")
+    nome_cliente = input("Digite o nome do cliente: ")
+    item_aprovado = input("Digite o nome do item aprovado: ")
+    avaliacao = float(input("Digite o valor do item em créditos: "))
+    return nome_funcionario, nome_cliente, item_aprovado, avaliacao
+
+funcionarios = []
+clientes = []
+
+# Exemplo de uso
+if __name__ == "__main__":
+    # Obter informações do usuário
+    nome_funcionario, nome_cliente, item_aprovado, avaliacao = obter_dados_usuario()
+
+    # Criar ou obter funcionário e cliente existentes
+    funcionario_atual = obter_funcionario(nome_funcionario)
+    cliente_alvo = obter_cliente(nome_cliente)
+
+    # Atribuir créditos ao cliente para o item aprovado com avaliação informada
+    funcionario_atual.atribuir_creditos(cliente_alvo, item_aprovado, avaliacao)
