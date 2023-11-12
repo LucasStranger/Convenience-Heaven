@@ -1,0 +1,36 @@
+# Módulo 4: Catálogo de Itens :O
+
+class Item:
+    def __init__(self, nome, creditos_necessarios):
+        self.nome = nome
+        self.creditos_necessarios = creditos_necessarios
+
+class Catalogo:
+    def __init__(self):
+        self.itens_disponiveis = []
+
+    def adicionar_item(self, item):
+        self.itens_disponiveis.append(item)
+
+    def visualizar_catalogo(self):
+        print("Catálogo de Itens Disponíveis:")
+        for item in self.itens_disponiveis:
+            print(f"Item: {item.nome} | Créditos Necessários: {item.creditos_necessarios}")
+
+# Exemplo de Uso
+if __name__ == "__main__":
+    # Criando alguns itens
+    item1 = Item("Caneta", 50)
+    item2 = Item("Caderno", 100)
+    item3 = Item("Lápis", 30)
+
+    # Criando o catálogo
+    catalogo = Catalogo()
+
+    # Adicionando itens ao catálogo
+    catalogo.adicionar_item(item1)
+    catalogo.adicionar_item(item2)
+    catalogo.adicionar_item(item3)
+
+    # Visualizando o catálogo
+    catalogo.visualizar_catalogo()
