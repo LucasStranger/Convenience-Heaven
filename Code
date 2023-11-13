@@ -1,0 +1,64 @@
+# Módulo 9: Balanço de Vendas
+
+class Venda:
+    def __init__(self, data, categoria, valortotal):
+        self.data = data
+        self.categoria = categoria
+        self.valortotal = valortotal
+
+class Balanco:
+    def __init__(self):
+        self.transacoes = []
+
+    def balancear(self, inicio, fim):
+        vendas_no_periodo = [venda for venda in self.transacoes if inicio <= venda.data <= fim]
+        return vendas_no_periodo
+
+    def filtrodt(self, vendas, data):
+        return [venda for venda in vendas if venda.data == data]
+
+    def filtrocat(self, vendas, categoria):
+        return [venda for venda in vendas if venda.categoria == categoria]
+
+    def filtrovt(self, vendas, valortotal):
+        return [venda for venda in vendas if venda.valortotal == valortotal]
+
+    def exibirvendas(self, vendas):
+        print("Transações realizadas:")
+        for venda in vendas:
+            print(f"Data: {venda.data} | Categoria: {venda.categoria} | Valor Total: {venda.valortotal}")
+
+# EXEMPLO DE USO
+balanco = Balanco()
+
+# ADICIONAR VARIÁVEL DAS VENDAS AQUI
+venda1 = Venda("2023-01-10", "Eletrônicos", 1500.00)
+venda2 = Venda("2023-01-15", "Moda", 800.00)
+venda3 = Venda("2023-02-05", "Eletrônicos", 1200.00)
+
+balanco.transacoes.extend([venda1, venda2, venda3])
+
+##########
+
+# RF - 01
+inicio = input("Digite a data de início do período (formato YYYY-MM-DD): ")
+fim = input("Digite a data de fim do período (formato YYYY-MM-DD): ")
+vendaspp = balanco.balancear(inicio, fim)
+
+# RF - 02
+# FILTRO DAS VENDAS
+if input("Deseja filtrar por data? (s/n): ").lower() == 's':
+    datafiltro = input("Digite a data para filtrar (formato: YYYY-MM-DD): ")
+    vendaspp = balanco.filtrodt(vendaspp, datafiltro)
+
+if input("Deseja filtrar por categoria? (s/n): ").lower() == 's':
+    categoriafiltro = input("Digite a categoria para filtrar: ")
+    vendaspp = balanco.filtrocat(vendaspp, categoriafiltro)
+
+if input("Deseja filtrar por valor total? (s/n): ").lower() == 's':
+    valor_total_filtro = float(input("Digite o valor total para filtrar: "))
+    vendaspp = balanco.filtrovt(vendaspp, valor_total_filtro)
+
+# CÓDIGO FINAL
+balanco.exibirvendas(vendaspp)
+l
