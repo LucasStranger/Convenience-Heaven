@@ -1,1 +1,44 @@
+class Venda:
+    def __init__(self, data, categoria, valor_total):
+        self.data = data
+        self.categoria = categoria
+        self.valor_total = valor_total
 
+class Troca:
+    def __init__(self, data, item, creditos_necessarios):
+        self.data = data
+        self.item = item
+        self.creditos_necessarios = creditos_necessarios
+
+def gerar.re(sistema_cadastro, sistema_gestao_creditos, sistema_troca):
+    vendas = sistema_cadastro.obter_vendas()
+    trocas = sistema_troca.obter_trocas()
+
+    opc = int(input("Deseja gerar o relatório?\nEscolha:\n1 - Relatório Geral\n2 - Relatório com filtro\n"))
+
+    if opc == 1:
+        print("\nRelatório Geral:")
+        print(f"Total de vendas: {len(vendas)}")
+        print(f"Itens trocados: {len(trocas)}")
+total_clientes_gestao_creditos = sistema_gestao_creditos.obter_total_clientes_gestao_creditos()
+        print(f"Clientes usando gestão de créditos: {total_clientes_gestao_creditos}")
+
+    elif opc == 2:
+        data_inicio = input("Digite a data de início para o filtro (formato YYYY-MM-DD): ")
+        data_fim = input("Digite a data de fim para o filtro (formato YYYY-MM-DD): ")
+        vendas_filtradas = [venda for venda in vendas if data_inicio <= venda.data <= data_fim]
+        trocas_filtradas = [troca for troca in trocas if data_inicio <= troca.data <= data_fim]
+
+        print("\nRelatório com filtro:")
+        print(f"Total de vendas no período: {len(vendas_filtradas)}")
+        print(f"Total de trocas no período: {len(trocas_filtradas)}")
+
+    else:
+        print("Opção inválida.")
+
+if __name__ == "__main__":
+    sistema_cadastro = SistemaCadastro()
+    sistema_gestao_creditos = SistemaGestaoCreditos()
+    sistema_troca = SistemaTroca(sistema_cadastro, sistema_gestao_creditos, catalogo)
+
+gerar.re(sistema_cadastro, sistema_gestao_creditos, sistema_troca)
